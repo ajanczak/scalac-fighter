@@ -10,14 +10,15 @@ case class Bullet(
     startY: Double = 0,
     override val width: Int = Width,
     override val height: Int = Height,
-    override val speed: Int = Speed)
+    override val direction: Direction = Direction.straight(Speed))
   extends GameObject
-  with SelfMoving{
+  with SelfMoving {
 
   override val object3d: Object3D = create()
 
   override def move = {
-    object3d.position.x += speed
+    object3d.position.x += direction.deltaX
+    object3d.position.y -= direction.deltaY
   }
 
   private def create() = {

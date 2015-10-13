@@ -8,11 +8,11 @@ object Settings {
   object Mobs {
     val MaxCount = 30
     val CreationInterval = 300
-    val Textures = List("java.png", "ruby.png", "dotnet.png")
+    val Textures = List("invader1.png", "invader2.png", "invader3.png")
   }
 
   object EnemyShip {
-    val Width = 44
+    val Width = 60
     val Height = 60
     val Speed = 4
   }
