@@ -70,7 +70,7 @@ class Game(val container: HTMLElement) {
   }
 
 
-  def shoot() = {
+  def shoot(): js.Any = {
     val newBullet = new Bullet(playerShip.x, playerShip.y)
     gameScene.add(newBullet)
   }

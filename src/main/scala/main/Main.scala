@@ -27,7 +27,6 @@ object Main extends JSApp {
     }
     jQuery("div").mousedown{ event: JQueryEventObject =>
       game.shoot()
-      js.Any.fromByte(1) //this is ugly, but must be here
     }
 
     def renderLoop(timestamp: Double): Unit = {
