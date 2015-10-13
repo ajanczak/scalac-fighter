@@ -1,7 +1,7 @@
 package main
 
 import main.Settings._
-import objects.{Bullet, EnemyShip, SelfMoving, TexturedObject}
+import objects.{PlayerShip => Player, SelfMoving, TexturedObject, Bullet, EnemyShip}
 import org.denigma.threejs._
 import org.scalajs.dom.raw.HTMLElement
 
@@ -26,6 +26,7 @@ class Game(val container: HTMLElement) {
 
 
   def detectCollisions() = {
+    val player = gameScene.objects.filter { case (id, obj) => obj.isInstanceOf[Player] }
     val bullets = gameScene.objects.filter { case (id, obj) => obj.isInstanceOf[Bullet] }
     val mobs = gameScene.objects.filter { case (id, obj) => obj.isInstanceOf[EnemyShip] }
     for {
@@ -35,6 +36,15 @@ class Game(val container: HTMLElement) {
       if (mob.inCollisionWith(bullet)) {
         gameScene.remove(mobId)
         gameScene.remove(bulletId)
+      }
+    }
+    for {
+      (_, playerObj) <- player
+      (mobId, mob) <- mobs
+    } {
+      if (playerObj.inCollisionWith(mob)) {
+        gameScene.scene.autoUpdate = false
+        println(s"BOOM!")
       }
     }
   }
@@ -57,7 +67,10 @@ class Game(val container: HTMLElement) {
   }
 
   def moveObject() = {
-    gameScene.objects.foreach { case (id, obj: SelfMoving) => obj.move }
+    gameScene.objects.foreach {
+      case (id, obj: SelfMoving) => obj.move
+      case _ =>
+    }
   }
 
   def cleanUp() = {
@@ -89,18 +102,17 @@ class Game(val container: HTMLElement) {
     gameScene.scene.add(ambientLight)
 
     //player's ship
-    gameScene.scene.add(playerShip.object3d)
+    gameScene.add(playerShip)
 
     //mob create
     RawTimers.setTimeout(createMob, Mobs.CreationInterval)
   }
 
-  private def createPlayerShip: TexturedObject = {
-    new TexturedObject(
+  private def createPlayerShip: TexturedObject = new Player(
       s"$TexturePath${PlayerShip.Texture}",
       PlayerShip.Width,
       PlayerShip.Height,
-      -screenWidth / 2 + PlayerShip.Height / 2
+      -screenWidth / 2 + PlayerShip.Height / 2,
+      0
     )
-  }
 }
