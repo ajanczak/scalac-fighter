@@ -19,7 +19,6 @@ class GameScene(
 
   def add(gameObject: GameObject) = {
     scene.add(gameObject.object3d)
-    scene.clone()
     objects = objects + (gameObject.object3d.id -> gameObject)
   }
 
