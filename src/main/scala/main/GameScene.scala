@@ -1,7 +1,7 @@
 package main
 
 import objects.GameObject
-import org.denigma.threejs.Scene
+import org.denigma.threejs
 
 object GameScene {
   def apply = new GameScene
@@ -14,7 +14,7 @@ object GameScene {
  * @param objects map holding objects
  */
 class GameScene(
-  val scene: Scene = new Scene,
+  val scene: threejs.Scene = new threejs.Scene, // scene is mutable object
   var objects: Map[Double, GameObject] = Map[Double, GameObject]()) {
 
   def add(gameObject: GameObject) = {
