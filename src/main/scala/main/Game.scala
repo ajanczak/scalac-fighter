@@ -63,10 +63,10 @@ class Game(val container: HTMLElement) {
   def renderStep() = {
     detectCollisions()
     cleanUp()
-    moveObject()
+    moveObjects()
   }
 
-  def moveObject() = {
+  def moveObjects() = {
     gameScene.objects.foreach {
       case (id, obj: SelfMoving) => obj.move
       case _ =>
